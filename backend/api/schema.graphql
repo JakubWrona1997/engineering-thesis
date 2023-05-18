@@ -1,0 +1,81 @@
+enum AccountType {
+  ADMIN
+  USER
+}
+
+type Mutation
+{
+  createDocumentWithTemplate(name: String!, doc_type: DocumentType, is_archived: Boolean, data: AWSJSON, metadata: AWSJSON, document_template_id: String): Document
+    @function(name: "createDocumentWithTemplate-${env}")
+    @auth(rules: [
+      {allow: private, provider: userPools},
+    ])
+}
+
+type Communication 
+  @model (
+    mutations: {create: "createCommunication", update: null}
+  )
+  @auth(rules: [
+    {allow: owner, ownerField:"owner", provider: userPools, operations: [create, read]}
+  ])
+{
+  id: ID!
+  communication_type: CommunicationType @index(name: "SortComTypeByTimestamp", sortKeyFields:["createdAt"], queryField:"listCommunicationsSortedByTimestamp")
+  Document: Document @hasOne
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Template 
+  @model 
+  @auth(rules: [
+    {allow: private, provider: userPools, operations: [read, create]}
+  ]) 
+{
+  id: ID!
+  name: String
+  template_type: TemplateType
+  metadata: AWSJSON
+  template_location: AWSURL
+  template_image: String
+}
+
+type Document 
+  @model 
+  @auth(rules: [
+    {allow: owner, ownerField:"owner", provider: userPools, operations: [create, read, update]}
+    {allow: private, provider: iam, operations: [create]}
+  ]) 
+{
+  id: ID!
+  name: String!
+  doc_type: DocumentType @index(name: "SortDocTypeByTimestamp", sortKeyFields:["createdAt"], queryField:"listDocumentsSortedByTimestamp")
+  is_archived: Boolean
+  data: AWSJSON
+  metadata: AWSJSON
+  owner: String
+  Template: Template @hasOne
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum TemplateType {
+  BUSINESS
+  MARKETING
+  INVOICE
+  E_MARKETING
+}
+
+enum CommunicationType {
+  EMAIL
+  SMS
+}
+
+enum DocumentType {
+  PDF
+  DOCX
+  XLS
+}
+                                       

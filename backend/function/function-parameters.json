@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "api": {
+      "smartdocumentsender": [
+        "Query",
+        "Mutation"
+      ]
+    },
+    "storage": {
+      "s3smartdocumentsenderstorage02a47b54": [
+        "create",
+        "read",
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

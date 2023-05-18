@@ -1,0 +1,28 @@
+.fillTemplateContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  .inputFieldsContainer {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20rem;
+    background-color: white; /* Add a background color if desired */
+    border-radius: 10px; /* Add border radius if desired */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow if desired */
+  }
+
+  .template {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .template:hover {
+    transform: scale(1.1); /* Adjust the scale factor as needed */
+    cursor: pointer;
+  }
+
+  .container{
+    margin: 5rem;
+  }
